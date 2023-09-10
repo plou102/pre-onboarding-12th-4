@@ -1,6 +1,10 @@
 {
   "compilerOptions": {
     "target": "es5",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"] // @/로 시작하는 경로를 src/ 경로로 설정
+    },
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
