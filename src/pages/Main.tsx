@@ -1,6 +1,15 @@
 import { Response } from '@/types';
 import React, { useEffect, useState } from 'react';
-import { ComposedChart, Bar, Area, YAxis, XAxis, Tooltip, ResponsiveContainer } from 'recharts';
+import {
+  ComposedChart,
+  Bar,
+  Area,
+  YAxis,
+  XAxis,
+  Tooltip,
+  ResponsiveContainer,
+  Cell,
+} from 'recharts';
 import mock_data from 'src/mock/mock_data.json';
 import { styled } from 'styled-components';
 
@@ -18,6 +27,7 @@ const Main = () => {
   const data = Object.values(response);
   const name = Object.keys(response);
   const [id, setId] = useState<string[]>([]);
+  const [filter, setFilter] = useState('');
 
   useEffect(() => {
     if (index < data.length) {
@@ -50,17 +60,21 @@ const Main = () => {
     return `${min}:${sec}`;
   };
 
+  const filterClick = (item: string) => {
+    setFilter(item);
+  };
+
   return (
     <MainContent>
       <Parameter>
-        <span className="red">value_bar</span>
-        <span className="blue">value_area</span>
+        <span className="red">value_area</span>
+        <span className="blue">value_bar</span>
       </Parameter>
 
       <FilterContent>
-        <FilterBtn>헤제</FilterBtn>
+        <FilterBtn onClick={() => filterClick('')}>헤제</FilterBtn>
         {id.map(item => {
-          return <FilterBtn>{item}</FilterBtn>;
+          return <FilterBtn onClick={() => filterClick(item)}>{item}</FilterBtn>;
         })}
       </FilterContent>
 
@@ -97,9 +111,16 @@ const Main = () => {
           />
 
           <Tooltip />
-
-          <Bar yAxisId="right" dataKey="value_bar" fill="#7ba2ff" />
-          <Area yAxisId="left" dataKey="value_area" stroke="#fa7373" fill="#fa7373" />
+          <Bar yAxisId="right" dataKey="value_bar" fill="#7ba2ff">
+            {data.map((item, index) => (
+              <Cell
+                cursor="pointer"
+                fill={filter === item.id ? '#949494' : '#7ba2ff'}
+                key={`cell-${index}`}
+              />
+            ))}
+          </Bar>
+          <Area yAxisId="left" dataKey="value_area" id="id" stroke="#fa7373" fill="#fa7373" />
         </ComposedChart>
       </ResponsiveContainer>
 
@@ -146,11 +167,10 @@ const MainContent = styled.div`
 const Parameter = styled.div`
   text-align: right;
   padding: 10px 0 14px 0;
-  margin-bottom: 80px;
 
   span {
     position: relative;
-    font-size: 9px;
+    font-size: 12px;
     color: #606060;
     line-height: 13px;
     padding: 0 10px 0 25px;
@@ -178,7 +198,10 @@ const Parameter = styled.div`
 
 const FilterContent = styled.div`
   display: flex;
+  justify-content: end;
   gap: 10px;
+
+  margin: 0 10px 70px 0;
 `;
 
 const FilterBtn = styled.button`
