@@ -10,6 +10,7 @@ import {
   ResponsiveContainer,
   Cell,
 } from 'recharts';
+import { CategoricalChartFunc } from 'recharts/types/chart/generateCategoricalChart';
 import mock_data from 'src/mock/mock_data.json';
 import { styled } from 'styled-components';
 
@@ -60,8 +61,20 @@ const Main = () => {
     return `${min}:${sec}`;
   };
 
-  const filterClick = (item: string) => {
+  const filterBtnClick = (item: string) => {
     setFilter(item);
+  };
+
+  interface IActivePayload {
+    activePayload: {
+      payload: stateProps;
+    }[];
+  }
+
+  const filterClick = ({ activePayload }: IActivePayload) => {
+    const payload = activePayload[0].payload;
+
+    if (payload) setFilter(payload.id);
   };
 
   return (
@@ -72,9 +85,9 @@ const Main = () => {
       </Parameter>
 
       <FilterContent>
-        <FilterBtn onClick={() => filterClick('')}>헤제</FilterBtn>
+        <FilterBtn onClick={() => filterBtnClick('')}>헤제</FilterBtn>
         {id.map(item => {
-          return <FilterBtn onClick={() => filterClick(item)}>{item}</FilterBtn>;
+          return <FilterBtn onClick={() => filterBtnClick(item)}>{item}</FilterBtn>;
         })}
       </FilterContent>
 
@@ -87,6 +100,7 @@ const Main = () => {
             bottom: 0,
             left: 0,
           }}
+          onClick={filterClick as CategoricalChartFunc}
         >
           <XAxis scale="band" dataKey="name" tickFormatter={fomatClock} />
           <YAxis
