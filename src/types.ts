@@ -11,3 +11,10 @@ export interface Response {
     value_bar: number;
   };
 }
+
+export interface DataProps {
+  name: string;
+  id: string;
+  value_area: number;
+  value_bar: number;
+}

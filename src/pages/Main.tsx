@@ -1,5 +1,5 @@
 import FilterButton from 'src/components/FilterButton';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import {
   ComposedChart,
   Bar,
@@ -12,52 +12,20 @@ import {
 } from 'recharts';
 import { CategoricalChartFunc } from 'recharts/types/chart/generateCategoricalChart';
 import { styled } from 'styled-components';
-import { Response } from '@/types';
-import mock_data from 'src/mock/mock_data.json';
 import { IdContext } from 'src/context/FilterIdContext';
 import { fomatClock } from 'src/util/FomatClock';
-
-interface stateProps {
-  name: string;
-  id: string;
-  value_area: number;
-  value_bar: number;
-}
+import { MockDataContext } from 'src/context/DataContext';
+import { DataProps } from '@/types';
 
 interface IActivePayload {
   activePayload: {
-    payload: stateProps;
+    payload: DataProps;
   }[];
 }
 
 const Main = () => {
-  const response: Response = mock_data.response;
-  const [mockData, setMockData] = useState<stateProps[]>([]);
-  const data = Object.values(response);
-  const name = Object.keys(response);
-  const [index, setIndex] = useState(0);
-  const [id, setId] = useState<string[]>([]);
-
   const { filterId, setFilterId } = useContext(IdContext);
-
-  useEffect(() => {
-    if (index < data.length) {
-      reData(index);
-      setIndex(index + 1);
-
-      !id.includes(data[index].id) && setId([...id, data[index].id]);
-    }
-  }, [index]);
-
-  const reData = (idx: number) => {
-    const newData = {
-      name: name[idx],
-      id: data[idx].id,
-      value_area: data[idx].value_area,
-      value_bar: data[idx].value_bar,
-    };
-    setMockData([...mockData, newData]);
-  };
+  const { data, id } = useContext(MockDataContext);
 
   const filterClick = ({ activePayload }: IActivePayload) => {
     const payload = activePayload[0].payload;
@@ -81,7 +49,7 @@ const Main = () => {
 
       <ResponsiveContainer width="100%" height="75%">
         <ComposedChart
-          data={mockData}
+          data={data}
           margin={{
             top: 20,
             right: 0,
@@ -114,7 +82,7 @@ const Main = () => {
 
           <Tooltip />
           <Bar yAxisId="right" dataKey="value_bar" fill="#7ba2ff">
-            {mockData?.map((item, index) => (
+            {data?.map((item, index) => (
               <Cell
                 cursor="pointer"
                 fill={filterId === item.id ? '#949494' : '#7ba2ff'}

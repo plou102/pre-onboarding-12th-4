@@ -2,14 +2,17 @@ import './App.css';
 import { styled } from 'styled-components';
 import { Outlet } from 'react-router-dom';
 import { FilterIdContext } from './context/FilterIdContext';
+import DataContext from './context/DataContext';
 
 function App() {
   return (
-    <FilterIdContext>
-      <Container>
-        <Outlet />
-      </Container>
-    </FilterIdContext>
+    <DataContext>
+      <FilterIdContext>
+        <Container>
+          <Outlet />
+        </Container>
+      </FilterIdContext>
+    </DataContext>
   );
 }
 
