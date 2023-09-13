@@ -15,6 +15,7 @@ import { styled } from 'styled-components';
 import { Response } from '@/types';
 import mock_data from 'src/mock/mock_data.json';
 import { IdContext } from 'src/context/FilterIdContext';
+import { fomatClock } from 'src/util/FomatClock';
 
 interface stateProps {
   name: string;
@@ -37,7 +38,6 @@ const Main = () => {
   const [index, setIndex] = useState(0);
   const [id, setId] = useState<string[]>([]);
 
-  // const [filterId, setFilterId] = useState('');
   const { filterId, setFilterId } = useContext(IdContext);
 
   useEffect(() => {
@@ -57,14 +57,6 @@ const Main = () => {
       value_bar: data[idx].value_bar,
     };
     setMockData([...mockData, newData]);
-  };
-
-  const fomatClock = (value: string) => {
-    const date = new Date(value);
-    const min = String(date.getMinutes()).padStart(2, '0');
-    const sec = String(date.getSeconds()).padStart(2, '0');
-
-    return `${min}:${sec}`;
   };
 
   const filterClick = ({ activePayload }: IActivePayload) => {
