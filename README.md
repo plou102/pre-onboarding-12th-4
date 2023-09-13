@@ -1,46 +1,102 @@
-# Getting Started with Create React App
+# 프리온보딩 시계열 차트 만들기
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+주어진 데이터를 기반으로 시계열 차트 만들기
 
-## Available Scripts
+<br />
 
-In the project directory, you can run:
+## 목차
 
-### `npm start`
+- [🐼 만든 사람](#-만든-사람)
+- [🔗 배포 링크](#-배포-링크)
+- [🛠️ 기술 스택](#-기술-스택)
+- [💻 실행 방법](#-실행-방법)
+- [📂 폴더 구조](#-폴더-구조)
+- [📚 기능](#-기능)
+  - [시계열 차트 만들기](#시계열-차트-만들기)
+  - [호버 기능 구현](#호버-기능-구현)
+  - [필터링 기능 구현](#필터링-기능-구현)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## 🐼 만든 사람
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- 박정민
 
-### `npm test`
+<br />
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 🔗 배포 링크
 
-### `npm run build`
+- [Time Series Chart](https://pre-time-series-chart.netlify.app/)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+<br />
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## 🛠️ 기술 스택
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+<img src="https://img.shields.io/badge/React-61DAFB?style=flat&logo=react&logoColor=black"> <img src="https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=typescript&logoColor=white"> <img src="https://img.shields.io/badge/Styled Components-DB7093?style=flat&logo=styled-components&logoColor=white"> <img src="https://img.shields.io/badge/React Router-CA4245?style=flat&logo=react router&logoColor=white">
 
-### `npm run eject`
+<img src="https://img.shields.io/badge/ESlint-4B32C3?style=flat&logo=eslint&logoColor=white"> <img src="https://img.shields.io/badge/Prettier-F7B93E?style=flat&logo=prettier&logoColor=black">
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+<br />
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## 💻 실행 방법
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+```zsh
+$ npm install
+$ npm start
+```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+- git clone후, 위의 명령어를 순서대로 실행하면 프로젝트를 이용하실 수 있습니다.
 
-## Learn More
+<br />
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## 📂 폴더 구조
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```
+📦src
+ ┣ 📂components
+ ┃ ┣ 📜CustomTooltip.tsx
+ ┃ ┗ 📜FilterButton.tsx
+ ┣ 📂context
+ ┃ ┣ 📜DataContext.tsx
+ ┃ ┗ 📜FilterIdContext.tsx
+ ┣ 📂mock
+ ┃ ┗ 📜mock_data.json
+ ┣ 📂pages
+ ┃ ┗ 📜Main.tsx
+ ┣ 📂util
+ ┃ ┗ 📜FomatClock.ts
+ ┣ 📜App.css
+ ┣ 📜App.tsx
+ ┣ 📜index.css
+ ┣ 📜index.tsx
+ ┗ 📜types.ts
+```
+
+<br />
+
+## 📚 기능
+
+### 시계열 차트 만들기
+
+- Recharts를 사용하여 구현하였습니다.
+- 왼쪽 Y축에는 Area 그래프의 대략적인 수치를, 오른쪽 Y축에는 Bar 그래프의 대략적인 수치를 나타내었습니다.
+- X축을 나타내는 Key값을 포맷팅하여 구현하였습니다.
+  - ex) `2023-02-01 14:36:45` -> `35:15`
+
+<img width="1420" alt="스크린샷 2023-09-13 오후 7 20 28" src="https://github.com/plou102/pre-onboarding-12th-2/assets/107393773/3eed5d57-5418-431e-aacd-f1b01459858c">
+
+<br />
+
+### 호버 기능 구현
+
+- 특정 데이터에 마우스 호버시 툴팁이 보여지도록 구현하였습니다.
+- 툴팁에 `id, key, value_area, value_bar` 데이터가 보여지도록 커스텀하였습니다.
+
+<img width="202" alt="스크린샷 2023-09-13 오후 7 23 12" src="https://github.com/plou102/pre-onboarding-12th-2/assets/107393773/d8312b95-5bac-4f61-a2d5-21ce3b50e882">
+
+<br />
+
+### 필터링 기능 구현
+
+- 필터링은 `id` 데이터를 기준으로 구현하였습니다.
+- 차트 상단의 버튼을 클릭하면 필터링 되어 특정 데이터 구역이 하이라이트 되도록 구현하였습니다.
+
+![filter](https://github.com/plou102/pre-onboarding-12th-2/assets/107393773/75c3e8b6-4bb1-4a5f-98ac-683a70ad45fe)
