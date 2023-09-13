@@ -1,13 +1,15 @@
-import React from 'react';
 import './App.css';
 import { styled } from 'styled-components';
 import { Outlet } from 'react-router-dom';
+import { FilterIdContext } from './context/FilterIdContext';
 
 function App() {
   return (
-    <Container>
-      <Outlet />
-    </Container>
+    <FilterIdContext>
+      <Container>
+        <Outlet />
+      </Container>
+    </FilterIdContext>
   );
 }
 
