@@ -16,6 +16,7 @@ import { IdContext } from 'src/context/FilterIdContext';
 import { fomatClock } from 'src/util/FomatClock';
 import { MockDataContext } from 'src/context/DataContext';
 import { DataProps } from '@/types';
+import CustomTooltip from 'src/components/CustomTooltip';
 
 interface IActivePayload {
   activePayload: {
@@ -80,7 +81,7 @@ const Main = () => {
             domain={[0, 200]}
           />
 
-          <Tooltip />
+          <Tooltip content={<CustomTooltip />} />
           <Bar yAxisId="right" dataKey="value_bar" fill="#7ba2ff">
             {data?.map((item, index) => (
               <Cell
